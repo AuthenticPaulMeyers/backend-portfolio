@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <!-- Tailwind CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
     {% if title %}
         <title>{{ title }} - Paul Meyers</title>
     {% else %}
@@ -20,5 +22,61 @@
     {% endblock %}
     
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script type="text/javascript">
+          document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", function () {
+        // Remove active classes from all links
+        navLinks.forEach(l => {
+          l.classList.remove("text-blue-700", "dark:text-blue-500");
+          l.classList.add("text-gray-900", "dark:text-white");
+        });
+
+        // Add active classes to clicked link
+        this.classList.add("text-blue-700", "dark:text-blue-500");
+        this.classList.remove("text-gray-900", "dark:text-white");
+      });
+    });
+  });
+  document.addEventListener("DOMContentLoaded", function () {
+    const sections = document.querySelectorAll("section"); // e.g., #about, #projects, etc.
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    function removeActiveClasses() {
+      navLinks.forEach(link => {
+        link.classList.remove("text-blue-700", "dark:text-blue-500");
+        link.classList.add("text-gray-900", "dark:text-white");
+      });
+    }
+
+    function addActiveClass(id) {
+      const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+      if (activeLink) {
+        activeLink.classList.add("text-blue-700", "dark:text-blue-500");
+        activeLink.classList.remove("text-gray-900", "dark:text-white");
+      }
+    }
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.offsetHeight;
+
+        if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      if (current) {
+        removeActiveClasses();
+        addActiveClass(current);
+      }
+    });
+  });
+    </script>
 </body>
 </html>
