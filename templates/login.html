@@ -3,17 +3,11 @@
 
 {% block content %}
     <section class="bg-white dark:bg-gray-900 mt-20 mb-20">
-    <h1 class="text-center text-4xl dark:text-white font-bold py-5"> 🙍Register </h1>
+    <h1 class="text-center text-4xl dark:text-white font-bold py-5">🔐Login </h1>
 
         <form method="post" autocomplete="off" novalidate class="max-w-sm mx-auto px-8">
             {{ form.hidden_tag() }}
-            <div class="mb-2">
-                {{ form.username.label(class="block text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.username(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
-                {% for error in form.username.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                {% endfor %}
-            </div>
+
             <div class="mb-2">
                 {{ form.email.label(class="block text-sm font-medium text-gray-900 dark:text-white") }}
                 {{ form.email(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
@@ -28,17 +22,11 @@
                     <span style="color: red; ">{{ error }}</span>
                 {% endfor %}
             </div>
-            <div class="mb-2">
-                {{ form.confirm.label(class="block text-sm font-medium text-gray-900 dark:text-white") }}
-                {{ form.confirm(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
-                {% for error in form.confirm.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                {% endfor %}
-            </div>
+
             <div class="mb-2">
                 {{ form.submit(class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800")}}
             </div>
-            <div class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Already a user? <a href="{{url_for('login')}}">Click here to login</a></div>
+            <div class="block text-sm font-medium text-gray-900 dark:text-white mb-2">New user? <a href="{{url_for('register')}}">Click here to register.</a></div>
         </form>
     </section>
     

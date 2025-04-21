@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="bg-white dark:bg-gray-900">
+        
+        <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
+            <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">📩 Contact Me</h2>
+        <p class="mb-2 lg:mb-3 font-light text-center text-gray-500 dark:text-gray-400 sm:text-xl">Ready to build something powerful together?
+            <br>
+            Whether you're a startup founder, a fellow developer, or an agency looking for a skilled backend expert, I'd love to collaborate. Let's build something scalable, fast, and efficient.</p>
+
+          <form method="post" autocomplete="off" novalidate >
+            {{ form.hidden_tag() }}
+            <div class="mb-2">
+                {{ form.email.label(class="block text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.email(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
+                {% for error in form.email.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="mb-2">
+                {{ form.subject.label(class="block text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.subject(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
+                {% for error in form.subject.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="mb-2">
+                {{ form.content.label(class="block text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.content(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500") }}
+                {% for error in form.content.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                {% endfor %}
+            </div>
+            <div class="mb-2">
+                {{ form.send(class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800")}}
+            </div>
+          </form>
+        </div>
+    </section>
+    
+    {% endblock %}
+    
