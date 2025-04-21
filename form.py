@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, EqualTo, Email, Length
 
 class RegistrationForm(FlaskForm):
@@ -17,5 +17,5 @@ class LoginForm(FlaskForm):
 class ContactForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()], render_kw={"placeholder": "name@example.com"})
     subject = StringField("Subject", validators=[DataRequired(), Length(min=4, max=100)], render_kw={"placeholder": "Your subject"})
-    content = StringField("Message", validators=[DataRequired(), Length(min=4)], render_kw={"placeholder": "Leave a message..."})
+    content = TextAreaField("Message", validators=[DataRequired(), Length(min=4)], render_kw={"placeholder": "Leave a message..."})
     send = SubmitField('Send message')

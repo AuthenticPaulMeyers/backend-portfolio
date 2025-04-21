@@ -95,8 +95,16 @@ def contact():
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    count_messages = Message.query.count()
-    return render_template('dashboard.html', title='Dashboard', name=current_user.username, count_messages=count_messages)
+    messages = Message.query.all()
+    count_messages = len(messages)
+
+    users = User.query.all()
+    count_users = len(users)
+
+    projects = Project.query.all()
+    count_projects = len(projects)
+
+    return render_template('dashboard.html', title='Dashboard', name=current_user.username, count_messages=count_messages, count_users=count_users, count_projects=count_projects)
 
 
 # log out user

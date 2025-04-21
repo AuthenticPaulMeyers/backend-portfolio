@@ -25,7 +25,7 @@ class User(db.Model, UserMixin):
 
 class Message(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(90), nullable=False, unique=True)
+    email = db.Column(db.String(90), nullable=False)
     subject = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     date_sent = db.Column(db.DateTime, default=datetime.now())
