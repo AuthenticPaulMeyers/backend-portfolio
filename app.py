@@ -104,7 +104,7 @@ def dashboard():
     projects = Project.query.all()
     count_projects = len(projects)
 
-    return render_template('dashboard.html', title='Dashboard', name=current_user.username, count_messages=count_messages, count_users=count_users, count_projects=count_projects)
+    return render_template('dashboard.html', title='Dashboard', name=current_user.username, count_messages=count_messages, count_users=count_users, count_projects=count_projects, users=users, messages=messages, projects=projects)
 
 
 # log out user
@@ -112,6 +112,18 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+# edit user
+@app.route('/edit')
+def edit():
+    
+    return redirect(url_for('register'))
+
+# delete user
+@app.route('/delete')
+def delete():
+    
+    return redirect(url_for('dashboard'))
 
 
 
