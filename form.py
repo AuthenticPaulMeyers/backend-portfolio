@@ -24,7 +24,7 @@ class ContactForm(FlaskForm):
 class ProjectForm(FlaskForm):
     title = StringField("Title", validators=[DataRequired(), Length(min=4, max=100)], render_kw={"placeholder": "Project title"})
     description = TextAreaField("Description", validators=[DataRequired()], render_kw={"placeholder": "Project description"})
-    image = FileField('Upload image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Only images allowed!')])
+    image = FileField('Upload image', validators=[FileRequired(), FileAllowed(['jpeg', 'jpg', 'png'], 'Only images allowed!')])
     github_url = StringField("GitHub URL", validators=[DataRequired()], render_kw={"placeholder": "https://github_url_here"})
     demo_url = StringField("Live Demo URL", validators=[DataRequired()], render_kw={"placeholder": "https://live_project_url_here"})
     submit = SubmitField('Submit')

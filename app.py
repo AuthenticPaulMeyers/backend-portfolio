@@ -1,4 +1,4 @@
-from flask import flash, Flask, render_template, url_for, redirect, request
+from flask import flash, Flask, render_template, url_for, redirect, request, send_file
 from flask_login import LoginManager, login_user, login_required, logout_user, UserMixin, current_user
 from config import Config
 from models import db, Project, User, Message
@@ -6,6 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from form import RegistrationForm, LoginForm, ContactForm, ProjectForm
 from flask_wtf import CSRFProtect
 from werkzeug.utils import secure_filename
+from io import BytesIO
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -74,8 +75,6 @@ def login():
         return redirect(url_for('dashboard'))
     return render_template('login.html', title='Login', form=form)
 
-# render projects page
-
 # render contact page
 @app.route('/contact', methods=['POST', 'GET'])
 def contact():
@@ -108,7 +107,6 @@ def dashboard():
 
     return render_template('dashboard.html', title='Dashboard', name=current_user.username, count_messages=count_messages, count_users=count_users, count_projects=count_projects, users=users, messages=messages, projects=projects)
 
-
 # log out user
 @app.route('/logout')
 def logout():
@@ -129,8 +127,7 @@ def delete():
     
     return redirect(url_for('dashboard'))
 
-
-# render project upload page
+# project upload 
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
 def upload_project():
@@ -144,18 +141,32 @@ def upload_project():
         github_url = form.github_url.data
         demo_url = form.demo_url.data
 
-        filename = secure_filename(image.filename)
-        image_data = image.read() # Read image is binary data
+        if image or image.filename != '':
+            image_mimetype=image.mimetype
+            filename = secure_filename(image.filename)
+            image_data = image.read() # Read image is binary data
 
+            project = Project(title=title, image=image_data, image_filename=filename, image_mimetype=image_mimetype, description=description, github_url=github_url, live_demo_url=demo_url)
 
-        project = Project(title=title, image=image_data, description=description, github_url=github_url, live_demo_url=demo_url)
+            db.session.add(project)
+            db.session.commit()
 
-        db.session.add(project)
-        db.session.commit()
-
-        flash('Uploaded successfully!', category='success')
-        return redirect(url_for('dashboard'))
+            flash('Uploaded successfully!', category='success')
+            return redirect(url_for('dashboard'))
+        else:
+            flash('No file selected.', category='error')
     return render_template('upload_project.html', form=form, title='Upload')
+
+#Retrieve the image route
+@app.route('/product_image/<int:project_id>')
+def project_image(project_id):
+    project = Project.query.filter_by(id=project_id).first()
+
+    if project:
+        mimetype = project.image_mimetype or 'image/jpeg'
+        download_name = project.image_filename
+        return send_file(BytesIO(project.image), mimetype=mimetype, download_name=download_name)
+    return "Image not found!", 404
 
 
 if __name__ == "__main__":

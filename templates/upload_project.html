@@ -5,7 +5,7 @@
     <section class="bg-white dark:bg-gray-900 mt-20 mb-20">
     <h1 class="text-center text-4xl dark:text-white font-bold py-5"> 🛠️Upload Project </h1>
 
-        <form method="post" autocomplete="off" novalidate class="max-w-sm mx-auto">
+        <form method="post" autocomplete="off" novalidate class="max-w-sm mx-auto" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="mb-2">
                 {{ form.title.label(class="block text-sm font-medium text-gray-900 dark:text-white") }}
