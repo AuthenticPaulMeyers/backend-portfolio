@@ -8,7 +8,7 @@
     <!-- Tailwind CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='app.js') }}">
     {% if title %}
         <title>{{ title }} - Paul Meyers</title>
     {% else %}
@@ -79,6 +79,23 @@
       }
     });
   });
+
+    // show hide the pages
+  function showPage(page){
+      document.querySelectorAll('.container').forEach(container => {
+          container.style.display = 'none'
+      })
+      document.querySelector(`#${page}`).style.display = 'block';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.btn-switch').forEach(btn => {
+          btn.onclick = function(){
+              showPage(this.dataset.page)
+          }
+      })
+  })
+
     </script>
 </body>
 </html>

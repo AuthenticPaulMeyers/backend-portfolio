@@ -3,8 +3,9 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from config import Config
 from models import db, Project, User, Message
 from werkzeug.security import generate_password_hash, check_password_hash
-from form import RegistrationForm, LoginForm, ContactForm
+from form import RegistrationForm, LoginForm, ContactForm, ProjectForm
 from flask_wtf import CSRFProtect
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -23,7 +24,8 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('index.html', title="Home")
+    projects = Project.query.all()
+    return render_template('index.html', title="Home", projects=projects)
 
 # render registration page
 @app.route('/register', methods=['GET', 'POST'])
@@ -115,16 +117,45 @@ def logout():
 
 # edit user
 @app.route('/edit')
+@login_required
 def edit():
     
     return redirect(url_for('register'))
 
 # delete user
 @app.route('/delete')
+@login_required
 def delete():
     
     return redirect(url_for('dashboard'))
 
+
+# render project upload page
+@app.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload_project():
+
+    form = ProjectForm()
+
+    if request.method == 'POST' and form.validate():
+        title = form.title.data
+        description = form.description.data
+        image = form.image.data
+        github_url = form.github_url.data
+        demo_url = form.demo_url.data
+
+        filename = secure_filename(image.filename)
+        image_data = image.read() # Read image is binary data
+
+
+        project = Project(title=title, image=image_data, description=description, github_url=github_url, live_demo_url=demo_url)
+
+        db.session.add(project)
+        db.session.commit()
+
+        flash('Uploaded successfully!', category='success')
+        return redirect(url_for('dashboard'))
+    return render_template('upload_project.html', form=form, title='Upload')
 
 
 if __name__ == "__main__":
