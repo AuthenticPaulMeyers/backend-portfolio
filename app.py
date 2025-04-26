@@ -113,19 +113,28 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-# edit user
-@app.route('/edit')
-@login_required
-def edit():
-    
-    return redirect(url_for('register'))
-
 # delete user
-@app.route('/delete')
+@app.route('/delete_user/<int:user_id>')
 @login_required
-def delete():
-    
+def delete_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        flash('User deleted!', category='success')
     return redirect(url_for('dashboard'))
+
+# delete message
+@app.route('/delete_message/<int:message_id>')
+@login_required
+def delete_message(message_id):
+    message = Message.query.filter_by(id=message_id).first()
+    if message:
+        db.session.delete(message)
+        db.session.commit()
+        flash('Message deleted!', category='success')
+    return redirect(url_for('dashboard'))
+
 
 # project upload 
 @app.route('/upload', methods=['GET', 'POST'])
@@ -167,6 +176,23 @@ def project_image(project_id):
         download_name = project.image_filename
         return send_file(BytesIO(project.image), mimetype=mimetype, download_name=download_name)
     return "Image not found!", 404
+
+
+# delete project route
+@app.route('/delete_project/<int:project_id>')
+@login_required
+def delete_project(project_id):
+    project = Project.query.filter_by(id=project_id).first()
+
+    if project:
+        db.session.delete(project)
+        db.session.commit()
+        flash("Deleted!", category='success')
+    return redirect(url_for('dashboard'))
+
+
+
+
 
 
 if __name__ == "__main__":
